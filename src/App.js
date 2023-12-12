@@ -1,120 +1,9 @@
-import { useState } from "react";
+import {
+  RadioButton,
+  RadioGroup,
+  RadioGroupContainer,
+} from "./components/RadioButton";
 import "./styles.css";
-
-const selectedBorderColor = "#5088f9";
-const unselectedBorderColor = "#ccd0e2";
-const selectedBackgroundColor = "#d2e0fe";
-const unselectedBackgroundColor = "white";
-
-const RadioButton = ({ isSelected, onClick, children, ...props }) => (
-  <div
-    role="radio"
-    aria-checked={isSelected}
-    tabIndex={0}
-    style={{
-      backgroundColor: isSelected
-        ? selectedBackgroundColor
-        : unselectedBackgroundColor,
-      border: `3px solid ${
-        isSelected ? selectedBorderColor : unselectedBorderColor
-      }`,
-      borderRadius: "10px",
-      paddingTop: "13px",
-      paddingBottom: "9px",
-      paddingInline: "37.5px",
-      display: "inline-block",
-      cursor: "pointer",
-      margin: "0.25rem",
-    }}
-    onClick={onClick}
-    onKeyDown={(e) => ["Enter", "Space"].includes(e.code) && onClick()}
-    {...props}
-  >
-    {children}
-  </div>
-);
-
-const RadioButtonTitle = ({ children, ...props }) => (
-  <p
-    style={{
-      fontSize: "20px",
-      fontWeight: "bold",
-      textAlign: "center",
-      margin: 0,
-      padding: 0,
-    }}
-    {...props}
-  >
-    {children}
-  </p>
-);
-
-const RadioButtonSubtitle = ({ children, ...props }) => (
-  <p
-    style={{
-      fontSize: "14px",
-      textAlign: "center",
-      margin: 0,
-      padding: 0,
-    }}
-    {...props}
-  >
-    {children}
-  </p>
-);
-
-const RadioButtonBody = ({ children, ...props }) => (
-  <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      gap: "2px",
-    }}
-    {...props}
-  >
-    {children}
-  </div>
-);
-
-const RadioButtonImage = ({ src, isSelected }) => (
-  <img
-    src={src}
-    style={{ border: "2px solid red" }}
-    // style={isSelected ? { filter: "opacity(.5) grayscale(.9)" } : null}
-  />
-);
-
-RadioButton.Title = RadioButtonTitle;
-RadioButton.Subtitle = RadioButtonSubtitle;
-RadioButton.Body = RadioButtonBody;
-RadioButton.Image = RadioButtonImage;
-
-const RadioGroup = ({ options, defaultOptionId = options[0].id }) => {
-  const [selectedId, setSelectedId] = useState(defaultOptionId);
-  return options.map((option) => (
-    <RadioButton
-      key={option.id}
-      onClick={() => setSelectedId(option.id)}
-      isSelected={option.id === selectedId}
-      {...option}
-    >
-      <RadioButton.Body>
-        {option.image ? (
-          <RadioButton.Image
-            isSelected={option.id === selectedId}
-            {...option.image}
-          />
-        ) : (
-          <h1>NO IMAGE</h1>
-        )}
-        {option.title && <RadioButton.Title>{option.title}</RadioButton.Title>}
-        {option.subtitle && (
-          <RadioButton.Subtitle>{option.subtitle}</RadioButton.Subtitle>
-        )}
-      </RadioButton.Body>
-    </RadioButton>
-  ));
-};
 
 const SimDeliveryRadioGroup = () => (
   <RadioGroup
@@ -130,6 +19,7 @@ const SimDeliveryRadioGroup = () => (
         subtitle: "Works on All Devices",
       },
     ]}
+    radioButtonProps={{ style: { width: "260px" } }}
   />
 );
 
@@ -149,60 +39,113 @@ const SimCardRadioGroup = () => (
     ]}
   />
 );
+const BringNumberRadioGroup = () => (
+  <RadioGroup
+    options={[
+      {
+        id: "oldNumber",
+        title: ["I Want to", "Bring My Old", "Number"], // "I Want to Bring My Old Number",
+        img: {
+          src: "https://resources-test.qlinkwireless.com/hello-mobile-temp/home/keep-your-number.webp",
+        },
+      },
+      {
+        id: "newNumber",
+        title: ["Assign Me", "a New Number"], // "Assign Me a New Number",
+        img: {
+          src: "https://resources-test.qlinkwireless.com/hello-mobile-temp/icons/current-number.webp",
+        },
+      },
+    ]}
+    radioButtonProps={{
+      style: { height: "185px", paddingBottom: 0 },
+    }}
+  />
+);
 
 const BringPhoneRadioGroup = () => (
   <RadioGroup
     options={[
       {
         id: "oldNumber",
+        title: ["I Want to ", "Bring My Own ", "Phone"], // "I Want to Bring My Own Phone",
         img: {
-          src: "https://resources-test.qlinkwireless.com/hello-mobile-temp/home/keep-your-number.webp",
+          src: "https://resources-test.qlinkwireless.com/hello-mobile-temp/landing-pages-2023/Hello-Mobile_Phone-Savings_Icon-Affordable-Phone-Plans_299x327.webp",
         },
-        title: "I Want to Bring My Old Number",
       },
       {
         id: "newNumber",
+        title: "Shop Phones",
         img: {
-          src: "https://resources-test.qlinkwireless.com/hello-mobile-temp/icons/current-number.webp",
+          src: "https://resources-test.qlinkwireless.com/hello-mobile-temp/landing-pages-2023/Hello-Mobile_Phone-Savings_Icon-Upgrade-Phone_245x300.webp",
         },
-        title: "Assign Me a New Number",
       },
     ]}
+    radioButtonProps={{
+      style: { height: "185px" },
+    }}
+    radioButtonBodyProps={{
+      style: { gap: "4px" },
+    }}
   />
+);
+
+const ColorOption = ({ color }) => (
+  <div
+    style={{
+      width: "50px",
+      height: "50px",
+      borderRadius: "4px",
+      backgroundColor: color,
+    }}
+  />
+);
+
+const ColorRadioGroup = ({ options }) => (
+  <RadioGroupContainer>
+    {options.map((option) => (
+      <RadioButton style={{ padding: "4px" }} key={option.id}>
+        <RadioButton.Body>
+          <ColorOption color={option.color} />
+        </RadioButton.Body>
+      </RadioButton>
+    ))}
+  </RadioGroupContainer>
 );
 
 export default function App() {
   return (
     <div className="App">
-      <h1>Hello CodeSandbox</h1>
-      <RadioButton isSelected={false}>hi</RadioButton>
+      <p>2 simple static radio buttons, one isSelected, one not:</p>
+      <RadioButton isSelected>64GB</RadioButton>
+      <RadioButton>128GB</RadioButton>
       <br />
+      <p>RadioGroup:</p>
       <RadioGroup
         options={[
-          { id: "hi", title: "Hi" },
-          { id: "bye", title: "Bye" },
+          { id: "noplan", title: ["No", "Plan"] },
+          { id: "1gb", title: "1GB", subtitle: "$XX/Mo" },
+        ]}
+        radioButtonProps={{ style: { width: "102px", height: "96px" } }}
+        radioButtonTitleProps={{ style: { fontSize: "24px" } }}
+      />
+      <p>ColorRadioGroup:</p>
+      <ColorRadioGroup
+        options={[
+          { id: "red", color: "red" },
+          { id: "black", color: "black" },
+          { id: "white", color: "white" },
+          { id: "silver", color: "silver" },
         ]}
       />
-      <br />
+      <p>SimDeliveryRadioGroup:</p>
       <SimDeliveryRadioGroup />
-      <br />
+      <p>SimCardRadioGroup:</p>
       <SimCardRadioGroup />
-      <br />
+      <p>BringNumberRadioGroup:</p>
+      <BringNumberRadioGroup />
+      <p>BringPhoneRadioGroup:</p>
       <BringPhoneRadioGroup />
-      <br />
-      <img src="https://resources-test.qlinkwireless.com/hello-mobile-temp/landing-pages-2023/Hello-Mobile_Phone-Savings_Icon-Affordable-Phone-Plans_299x327.webp" />
-      <br />
-      <img src="https://resources-test.qlinkwireless.com/hello-mobile-temp/landing-pages-2023/Hello-Mobile_Phone-Savings_Icon-Upgrade-Phone_245x300.webp" />
-      <br />
-      <img src="https://resources-test.qlinkwireless.com/hello-mobile-temp/home/keep-your-number.webp" />
-      <br />
-      <img src="https://resources-test.qlinkwireless.com/hello-mobile-temp/icons/current-number.webp" />
-      <br />
-      <RadioButton.Image
-        src={
-          "https://resources-test.qlinkwireless.com/hello-mobile-temp/home/keep-your-number.webp"
-        }
-      />
     </div>
   );
 }
