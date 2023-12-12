@@ -90,27 +90,39 @@ const BringPhoneRadioGroup = () => (
   />
 );
 
-const ColorOption = ({ color }) => (
-  <div
-    style={{
-      width: "50px",
-      height: "50px",
-      borderRadius: "4px",
-      backgroundColor: color,
-    }}
-  />
-);
+// const ColorOption = ({ color }) => (
+//   <div
+//     style={{
+//       width: "50px",
+//       height: "50px",
+//       borderRadius: "4px",
+//       backgroundColor: color,
+//     }}
+//   />
+// );
 
-const ColorRadioGroup = ({ options }) => (
-  <RadioGroupContainer>
-    {options.map((option) => (
-      <RadioButton style={{ padding: "4px" }} key={option.id}>
-        <RadioButton.Body>
-          <ColorOption color={option.color} />
-        </RadioButton.Body>
-      </RadioButton>
-    ))}
-  </RadioGroupContainer>
+// const ColorRadioGroup = ({ options }) => (
+//   <RadioGroupContainer>
+//     {options.map((option) => (
+//       <RadioButton style={{ padding: "4px" }} key={option.id}>
+//         <RadioButton.Body>
+//           <ColorOption color={option.color} />
+//         </RadioButton.Body>
+//       </RadioButton>
+//     ))}
+//   </RadioGroupContainer>
+// );
+
+const ColorRadioGroup = () => (
+  <RadioGroup
+    options={[
+      { id: "red", color: "red" },
+      { id: "black", color: "black" },
+      { id: "white", color: "white" },
+      { id: "silver", color: "silver" },
+    ]}
+    radioButtonProps={{ style: { padding: "4px" } }}
+  />
 );
 
 export default function App() {
@@ -130,14 +142,7 @@ export default function App() {
         radioButtonTitleProps={{ style: { fontSize: "24px" } }}
       />
       <p>ColorRadioGroup:</p>
-      <ColorRadioGroup
-        options={[
-          { id: "red", color: "red" },
-          { id: "black", color: "black" },
-          { id: "white", color: "white" },
-          { id: "silver", color: "silver" },
-        ]}
-      />
+      <ColorRadioGroup />
       <p>SimDeliveryRadioGroup:</p>
       <SimDeliveryRadioGroup />
       <p>SimCardRadioGroup:</p>

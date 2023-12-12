@@ -105,10 +105,22 @@ const RadioButtonImage = ({ src, isSelected }) => (
   />
 );
 
+const RadioButtonColorOption = ({ color }) => (
+  <div
+    style={{
+      width: "50px",
+      height: "50px",
+      borderRadius: "4px",
+      backgroundColor: color,
+    }}
+  />
+);
+
 RadioButton.Title = RadioButtonTitle;
 RadioButton.Subtitle = RadioButtonSubtitle;
 RadioButton.Body = RadioButtonBody;
 RadioButton.Image = RadioButtonImage;
+RadioButton.ColorOption = RadioButtonColorOption;
 
 export const RadioGroupContainer = ({ children }) => (
   <div
@@ -158,6 +170,7 @@ export const RadioGroup = ({
             {option.subtitle && (
               <RadioButton.Subtitle>{option.subtitle}</RadioButton.Subtitle>
             )}
+            {option.color && <RadioButton.ColorOption color={option.color} />}
           </RadioButton.Body>
         </RadioButton>
       ))}
